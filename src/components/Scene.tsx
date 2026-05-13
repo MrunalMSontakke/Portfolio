@@ -22,24 +22,24 @@ import { BlendFunction, GlitchMode } from "postprocessing";
 
 function HyperTunnel() {
   const group = useRef<THREE.Group>(null!);
-  const segments = 25;
+  const segments = 30;
   const radius = 15;
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    group.current.position.z = (time * 65) % 15;
-    group.current.rotation.z = time * 0.3;
+    group.current.position.z = (time * 80) % 20;
+    group.current.rotation.z = time * 0.5;
   });
 
   return (
     <group ref={group}>
       {[...Array(segments)].map((_, i) => (
-        <mesh key={i} position={[0, 0, -i * 8]} rotation={[0, 0, i * 0.4]}>
-          <torusGeometry args={[radius, 0.03, 16, 100]} />
-          <meshBasicMaterial color="#818cf8" transparent opacity={0.4} />
+        <mesh key={i} position={[0, 0, -i * 10]} rotation={[0, 0, i * 0.5]}>
+          <torusGeometry args={[radius, 0.02, 16, 100]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.3} />
         </mesh>
       ))}
-      <Stars radius={50} depth={50} count={12000} factor={25} saturation={0} fade speed={12} />
+      <Stars radius={50} depth={50} count={15000} factor={30} saturation={0} fade speed={15} />
     </group>
   );
 }
@@ -49,8 +49,8 @@ function Starfield() {
     <Stars
       radius={100}
       depth={50}
-      count={6000}
-      factor={4}
+      count={8000}
+      factor={6}
       saturation={0}
       fade
       speed={1}
@@ -58,7 +58,7 @@ function Starfield() {
   );
 }
 
-function Particles({ count = 2000, speed = 1 }) {
+function Particles({ count = 3000, speed = 1 }) {
   const points = useRef<THREE.Points>(null!);
 
   const particles = useMemo(() => {
@@ -73,8 +73,8 @@ function Particles({ count = 2000, speed = 1 }) {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    points.current.rotation.y = time * 0.04 * speed;
-    points.current.rotation.z = time * 0.02 * speed;
+    points.current.rotation.y = time * 0.05 * speed;
+    points.current.rotation.z = time * 0.03 * speed;
   });
 
   return (
@@ -88,44 +88,45 @@ function Particles({ count = 2000, speed = 1 }) {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial size={0.04} color="#818cf8" transparent opacity={0.5} sizeAttenuation />
+      <pointsMaterial size={0.03} color="#ffffff" transparent opacity={0.4} sizeAttenuation />
     </points>
   );
 }
 
-function FloatingCore({ isTraveling }: { isTraveling: boolean }) {
+function DistortedSphere({ isTraveling }: { isTraveling: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const outerRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     if (isTraveling) {
-      meshRef.current.rotation.y = time * 6;
-      meshRef.current.rotation.z = time * 3;
-      outerRef.current.rotation.x = -time * 2;
+      meshRef.current.rotation.y = time * 10;
+      meshRef.current.rotation.z = time * 5;
+      outerRef.current.rotation.x = -time * 4;
     } else {
-      outerRef.current.rotation.y = time * 0.5;
+      meshRef.current.rotation.y = time * 0.2;
+      outerRef.current.rotation.y = time * 0.4;
     }
   });
 
   return (
-    <Float speed={isTraveling ? 12 : 2} rotationIntensity={isTraveling ? 8 : 0.5} floatIntensity={isTraveling ? 4 : 1}>
+    <Float speed={isTraveling ? 15 : 2} rotationIntensity={isTraveling ? 10 : 0.5} floatIntensity={isTraveling ? 5 : 1}>
       <group>
         <mesh ref={meshRef}>
-          <icosahedronGeometry args={[4, 15]} />
+          <sphereGeometry args={[5, 64, 64]} />
           <MeshDistortMaterial
             color={isTraveling ? "#ffffff" : "#4f46e5"}
-            speed={isTraveling ? 8 : 2}
-            distort={isTraveling ? 0.7 : 0.4}
-            roughness={0.1}
+            speed={isTraveling ? 12 : 3}
+            distort={isTraveling ? 0.8 : 0.5}
+            roughness={0}
             metalness={1}
-            emissive={isTraveling ? "#818cf8" : "#000000"}
-            emissiveIntensity={isTraveling ? 3 : 0}
+            emissive={isTraveling ? "#ffffff" : "#6366f1"}
+            emissiveIntensity={isTraveling ? 5 : 1}
           />
         </mesh>
         <mesh ref={outerRef}>
-           <icosahedronGeometry args={[5.5, 2]} />
-           <meshBasicMaterial color="#6366f1" wireframe transparent opacity={0.15} />
+           <sphereGeometry args={[7, 32, 32]} />
+           <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.05} />
         </mesh>
       </group>
     </Float>
@@ -133,12 +134,12 @@ function FloatingCore({ isTraveling }: { isTraveling: boolean }) {
 }
 
 export default function Scene({ isTraveling }: { isTraveling: boolean }) {
-  const chromaticOffset = useMemo(() => new THREE.Vector2(0.05, 0.05), []);
+  const chromaticOffset = useMemo(() => new THREE.Vector2(0.08, 0.08), []);
   const [glitchActive, setGlitchActive] = useState(false);
 
   useEffect(() => {
     setGlitchActive(true);
-    const timer = setTimeout(() => setGlitchActive(false), 800);
+    const timer = setTimeout(() => setGlitchActive(false), 1000);
     return () => clearTimeout(timer);
   }, [isTraveling]);
 
@@ -149,29 +150,29 @@ export default function Scene({ isTraveling }: { isTraveling: boolean }) {
         <color attach="background" args={["#000000"]} />
 
         <ambientLight intensity={0.2} />
-        <spotLight position={[15, 15, 15]} angle={0.15} penumbra={1} intensity={2.5} color="#818cf8" />
-        <pointLight position={[-15, -15, -15]} intensity={1.5} color="#a855f7" />
+        <spotLight position={[15, 15, 15]} angle={0.15} penumbra={1} intensity={3} color="#ffffff" />
+        <pointLight position={[-15, -15, -15]} intensity={2} color="#4f46e5" />
 
         {isTraveling ? (
           <HyperTunnel />
         ) : (
           <>
             <Starfield />
-            <Particles count={3500} speed={1} />
+            <Particles count={4000} speed={1} />
           </>
         )}
 
-        <FloatingCore isTraveling={isTraveling} />
+        <DistortedSphere isTraveling={isTraveling} />
 
         <EffectComposer enableNormalPass={false}>
           <Bloom
             luminanceThreshold={0.1}
             mipmapBlur
-            intensity={isTraveling ? 5 : 2}
-            radius={0.4}
+            intensity={isTraveling ? 8 : 3}
+            radius={0.5}
           />
-          <Noise opacity={0.1} />
-          <Vignette eskil={false} offset={0.1} darkness={1.3} />
+          <Noise opacity={0.15} />
+          <Vignette eskil={false} offset={0.1} darkness={1.5} />
           {isTraveling ? (
             <ChromaticAberration
               blendFunction={BlendFunction.SCREEN}
@@ -183,8 +184,8 @@ export default function Scene({ isTraveling }: { isTraveling: boolean }) {
           {glitchActive ? (
             <Glitch
               delay={new THREE.Vector2(0, 0)}
-              duration={new THREE.Vector2(0.1, 0.3)}
-              strength={new THREE.Vector2(0.5, 1.0)}
+              duration={new THREE.Vector2(0.2, 0.4)}
+              strength={new THREE.Vector2(0.8, 1.2)}
               mode={GlitchMode.CONSTANT_WILD}
             />
           ) : (
@@ -196,7 +197,7 @@ export default function Scene({ isTraveling }: { isTraveling: boolean }) {
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={isTraveling ? 60 : 0.6}
+          autoRotateSpeed={isTraveling ? 80 : 0.8}
         />
       </Canvas>
     </div>

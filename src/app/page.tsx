@@ -8,7 +8,7 @@ export default function Home() {
   const [isTraveling, setIsTraveling] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [showBriefing, setShowBriefing] = useState(false);
-  const [logs, setLogs] = useState<string[]>(["SYSTEM READY", "OS: NEBULA-v4.2.0", "WAITING FOR INPUT..."]);
+  const [logs, setLogs] = useState<string[]>(["SYSTEM READY", "OS: ASTRO-v1.0.0", "WAITING FOR INPUT..."]);
   const logContainerRef = useRef<HTMLDivElement>(null);
 
   const handleLaunch = () => {
@@ -25,7 +25,7 @@ export default function Home() {
       } else {
         setCountdown(null);
         setIsTraveling(true);
-        addLog("DRIVE ACTIVE - VELOCITY MAX");
+        addLog("DRIVE ACTIVE - TRANSCENDING VOID");
       }
     }
   }, [countdown]);
@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     if (isTraveling) {
       const interval = setInterval(() => {
-        const msgs = ["VIBRATION NOMINAL", "SHIELD STRENGTH 99%", "SYNCHRONIZING...", "NEBULA DETECTED", "CORE TEMPERATURE: 4000K"];
+        const msgs = ["VIBRATION NOMINAL", "SHIELD STRENGTH 100%", "CORE STABILITY HIGH", "VOYAGING...", "SPACE-TIME CURVATURE: 0.004"];
         addLog(msgs[Math.floor(Math.random() * msgs.length)]);
       }, 4000);
       return () => clearInterval(interval);
@@ -61,8 +61,8 @@ export default function Home() {
             <div className="h-full w-full rounded-sm bg-black" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400">Project</span>
-            <span className="font-bold tracking-tight">NEBULA X</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400">Voyage</span>
+            <span className="font-bold tracking-tight">ASTRONAUT</span>
           </div>
         </div>
 
@@ -76,8 +76,8 @@ export default function Home() {
 
         <div className="flex items-center gap-4">
            <div className="hidden flex-col items-end md:flex">
-              <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">Sync Status</span>
-              <span className="text-[10px] font-mono font-bold text-emerald-500">ENCRYPTED // LINK-01</span>
+              <span className="text-[8px] font-bold uppercase tracking-widest text-zinc-600">System Status</span>
+              <span className="text-[10px] font-mono font-bold text-emerald-500">OPTIMAL // LINK-01</span>
            </div>
            <button className="h-10 w-10 rounded-full border border-white/5 bg-white/5 p-2 backdrop-blur-md transition-colors hover:bg-white/10">
             <div className="flex h-full w-full flex-col justify-center gap-1">
@@ -135,14 +135,14 @@ export default function Home() {
                   className="mx-auto h-[2px] bg-indigo-500"
                 />
                 <h1 className="text-6xl font-black tracking-tighter uppercase sm:text-8xl md:text-9xl">
-                  NEBULA<br/>
-                  <span className="text-zinc-500">X-RAY</span>
+                  Transcend<br/>
+                  <span className="text-zinc-500">The Void</span>
                 </h1>
               </div>
 
               <p className="max-w-2xl text-balance text-lg font-medium leading-relaxed text-zinc-400 sm:text-xl">
-                The next frontier of spatial computing. Nebula X is an experimental platform
-                integrating real-time telemetry with immersive 3D architecture.
+                The next frontier of spatial computing. Astronaut is an experimental research platform
+                exploring deep-space architecture and immersive storytelling.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row">
@@ -152,14 +152,14 @@ export default function Home() {
                 >
                   <div className="absolute inset-0 bg-indigo-600 transition-transform duration-500 group-hover:translate-y-[-100%]" />
                   <span className="relative z-10 flex h-full items-center justify-center text-xs font-black uppercase tracking-[0.2em]">
-                    Initiate Drive
+                    Engage Drive
                   </span>
                 </button>
                 <button
                   onClick={() => setShowBriefing(true)}
                   className="h-16 w-64 rounded-xl border border-white/10 bg-white/5 text-xs font-black uppercase tracking-[0.2em] backdrop-blur-xl transition-colors hover:bg-white/10"
                 >
-                  Project Briefing
+                  Mission Briefing
                 </button>
               </div>
             </motion.div>
@@ -177,16 +177,16 @@ export default function Home() {
                   className="h-1 w-64 bg-indigo-500"
                 />
                 <h2 className="text-xs font-black uppercase tracking-[1em] text-indigo-400">
-                  Hyperspace Active
+                  Transcendence Active
                 </h2>
               </div>
 
               <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
                 {[
-                  { label: 'Velocity', value: '78,400 km/s' },
-                  { label: 'Integrity', value: '99.2%' },
-                  { label: 'Target', value: 'Sector 7G' },
-                  { label: 'ETA', value: '2.1m' }
+                  { label: 'Velocity', value: '42,000 km/s' },
+                  { label: 'Integrity', value: '100%' },
+                  { label: 'Target', value: 'The Void' },
+                  { label: 'ETA', value: '∞' }
                 ].map((stat, i) => (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -208,7 +208,7 @@ export default function Home() {
                 }}
                 className="mt-8 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 transition-colors hover:text-white"
               >
-                [ DISENGAGE ]
+                [ Disengage ]
               </button>
             </motion.div>
           )}
@@ -264,7 +264,7 @@ export default function Home() {
                 <div className="h-[1px] w-full bg-white/5" />
 
                 <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">
-                  Classified Nebula X Research // Station 09
+                  Astronaut Research Division // Section 01
                 </p>
               </div>
             </motion.div>
@@ -278,11 +278,11 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <div className="h-[2px] w-8 bg-indigo-500" />
             <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
-              Station 09 // Orbital Path
+              Orbital Station // Deep Space
             </span>
           </div>
           <div className="font-mono text-[10px] text-zinc-600">
-            LOC: 40.7128° N, 74.0060° W
+            COORD: NULL
           </div>
         </div>
 
@@ -295,7 +295,7 @@ export default function Home() {
             ))}
           </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-700">
-            © 2025 NEBULA X CORP
+            © 2025 ASTRONAUT CORP
           </p>
         </div>
       </footer>
